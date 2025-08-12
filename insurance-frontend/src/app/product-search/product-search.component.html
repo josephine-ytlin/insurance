@@ -1,0 +1,92 @@
+<div class="container">
+  <header class="header-bar">
+    <h2>商品搜尋</h2>
+    <button nz-button nzType="default" (click)="logout()" class="logout-button">登出</button>
+  </header>
+
+  <form nz-form (ngSubmit)="onSearch()" class="search-form">
+    <nz-row [nzGutter]="24" nzAlign="middle">
+      <nz-col [nzSpan]="6">
+        <nz-form-item>
+          <nz-form-label nzFor="type">商品類型</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              [(ngModel)]="type"
+              name="type"
+              [nzOptions]="typeOptions"
+              nzAllowClear
+              nzPlaceHolder="請選擇商品類型"
+            ></nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col [nzSpan]="6">
+        <nz-form-item>
+          <nz-form-label nzFor="currency">幣別</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              [(ngModel)]="currency"
+              name="currency"
+              [nzOptions]="currencyOptions"
+              nzAllowClear
+              nzPlaceHolder="請選擇幣別"
+            ></nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col [nzSpan]="4" class="bonus-checkbox-col">
+        <nz-form-item>
+          <!-- <nz-form-label>分紅</nz-form-label> -->
+          <nz-form-control>
+            <label nz-checkbox [(ngModel)]="isBonus" name="isBonus">分紅</label>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label>年齡範圍</nz-form-label>
+          <nz-form-control>
+            <nz-slider
+              [(ngModel)]="ageRange"
+              name="ageRange"
+              [nzRange]="true"
+              [nzMin]="0"
+              [nzMax]="100"
+            ></nz-slider>
+            <div class="age-range-label">{{ ageRange[0] }} - {{ ageRange[1] }} 歲</div>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+
+    <div class="button-row">
+      <button nz-button nzType="primary" htmlType="submit" class="search-button">
+        搜尋
+      </button>
+    </div>
+  </form>
+
+  <nz-table
+  [nzData]="products"
+  [nzFrontPagination]="false"
+  [nzPageSize]="10"
+  class="product-table"
+>
+  <thead>
+    <tr>
+      <th>名稱</th>
+      <th>類型</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products" (click)="viewProductDetail(p.id)" class="clickable-row">
+      <td>{{ p.name }}</td>
+      <td>{{ p.type }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+</div>

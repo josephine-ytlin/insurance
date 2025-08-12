@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.insurance_backend.mapper.InsuranceProductMapper">
+    <select id="findById" parameterType="int" resultType="com.example.insurance_backend.entity.InsuranceProduct">
+        SELECT id, name, type, currency, is_bonus as isBonus, min_age as minAge, max_age as maxAge, payment_term as paymentTerm, description
+        FROM insurance_products
+        WHERE id = #{id}
+    </select>
+    <select id="findAll" resultType="com.example.insurance_backend.entity.InsuranceProduct">
+        SELECT id, name, type, currency, is_bonus as isBonus, min_age as minAge, max_age as maxAge, payment_term as paymentTerm, description
+        FROM insurance_products
+    </select>
+    <select id="searchProducts" parameterType="map" resultType="com.example.insurance_backend.entity.InsuranceProduct">
+	  SELECT id, name, type, currency, is_bonus as isBonus, min_age as minAge, max_age as maxAge, payment_term as paymentTerm, description
+	  FROM insurance_products
+	  WHERE 1=1
+	  <if test="type != null">
+	    AND type = #{type}
+	  </if>
+	  <if test="currency != null">
+	    AND currency = #{currency}
+	  </if>
+	  <if test="isBonus != null">
+	    AND is_bonus = #{isBonus}
+	  </if>
+	  AND min_age &lt;= #{maxAge}
+	  AND max_age &gt;= #{minAge}
+	</select>
+</mapper>
