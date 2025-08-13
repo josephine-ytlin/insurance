@@ -16,6 +16,7 @@
               [nzOptions]="typeOptions"
               nzAllowClear
               nzPlaceHolder="請選擇商品類型"
+              (ngModelChange)="onTypeChange($event)"
             ></nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -31,6 +32,7 @@
               [nzOptions]="currencyOptions"
               nzAllowClear
               nzPlaceHolder="請選擇幣別"
+              (ngModelChange)="onCurrencyChange($event)"
             ></nz-select>
           </nz-form-control>
         </nz-form-item>

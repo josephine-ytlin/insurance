@@ -34,24 +34,24 @@ export class ProductSearchComponent implements OnInit {
       const min = Math.min(...res.map(p => p.minAge));
       const max = Math.max(...res.map(p => p.maxAge));
       this.ageRange = [min, max];
+      console.debug("isBonus",this.isBonus);
+
     });
   }
 
   onSearch() {
     const isAgeRangeDefault = this.ageRange[0] === 0 && this.ageRange[1] === 75;
+  
     if (!this.type && !this.currency && this.isBonus === null && isAgeRangeDefault) {
-      this.modal.confirm({
-        nzTitle: '沒有設定任何查詢條件',
-        nzContent: '你沒有選擇任何查詢條件，將會顯示所有商品，確定要查詢嗎？',
-        nzOkText: '確定',
-        nzCancelText: '取消',
-        nzOnOk: () => {
-          this.searchProducts();
-        }
+      this.modal.warning({
+        nzTitle: '查詢條件不足',
+        nzContent: '請至少設定一個查詢條件再搜尋',
+        nzOkText: '確定'
       });
-    } else {
-      this.searchProducts();
+      return; // 🚫 不呼叫 searchProducts()
     }
+  
+    this.searchProducts();
   }
 
   private searchProducts() {
@@ -83,6 +83,17 @@ export class ProductSearchComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  onTypeChange(value: string) {
+    console.log('商品類型改變:', value);
+    this.isBonus=false;
+
+  }
+  
+  onCurrencyChange(value: string) {
+    console.log('幣別改變:', value);
+    this.isBonus=false;
   }
 
   viewProductDetail(id: number) {
