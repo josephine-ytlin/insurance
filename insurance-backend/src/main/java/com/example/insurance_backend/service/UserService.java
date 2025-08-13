@@ -29,7 +29,7 @@ public class UserService {
         user.setUsername(username);
         user.setPasswordHash(hashedPassword);
 
-        String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString(); //唯一性高＆不可預測＆方便
         user.setVerificationToken(token);
         user.setVerified(false);
 

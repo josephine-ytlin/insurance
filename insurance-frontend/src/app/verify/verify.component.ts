@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ApiResponse } from '../models/api-response';
 
 @Component({
   selector: 'app-verify',
@@ -28,15 +29,22 @@ export class VerifyComponent implements OnInit {
         return;
       }
 
-      this.http.get<{ message: string }>('/api/verify', { params: { token } }).subscribe({
+      // 使用後端新的泛型 APIResponse<Void> 路徑
+      this.http.get<ApiResponse<void>>('/api/auth/verify', { params: { token } }).subscribe({
         next: res => {
-          this.message = res.message || '驗證成功！';
           this.loading = false;
+          if (res.success) {
+            this.message = res.message || '驗證成功！';
+            this.error = false;
+          } else {
+            this.message = res.message || '驗證失敗';
+            this.error = true;
+          }
         },
         error: err => {
-          this.message = err.error?.message || '驗證失敗，請確認連結是否正確';
           this.loading = false;
           this.error = true;
+          this.message = err.error?.message || '驗證失敗，請確認連結是否正確';
         }
       });
     });
