@@ -6,13 +6,15 @@
 
 ## 專案結構
 - `insurance-backend/`：Spring Boot 3.5.4（Java 17）、MyBatis、Spring Security、Swagger
+```
 ├── config/
 ├── controller/       // 負責處理 API 請求
 ├── entity/
 ├── exception/
 ├── dto/              // 專門放 Request / Response DTO
 ├── service/          // 業務邏輯
-    
+```
+
 - `insurance-frontend/`：Angular 16 (TypeScript 5.1.3) 、ng-zorro-antd
 - `db/schema.sql`：資料庫 schema
 
