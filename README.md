@@ -7,6 +7,9 @@
 
 
 ## 專案結構
+<img src="./state_diagram.jpg" alt="java" width="400"/></a> <br>
+- [State diagram](https://diagram-generator.com/state/user-authentication-and-product-browsing-flow-561140)
+
 - [Sequence diagram](https://diagram-generator.com/sequence/user-authentication-and-product-search-workflow-354469)
 - `insurance-backend/`：Spring Boot 3.5.4（Java 17）、MyBatis、Spring Security、Swagger
 ```
