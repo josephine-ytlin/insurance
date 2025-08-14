@@ -131,8 +131,6 @@ export class ProductSearchComponent implements OnInit {
               <p><b>幣別：</b> ${p.currency}</p>
               <p><b>分紅：</b> ${p.isBonus ? '是' : '否'}</p>
               <p><b>年齡範圍：</b> ${p.minAge} - ${p.maxAge}</p>
-              <p><b>繳費方式：</b> ${p.paymentTerm || '無資料'}</p>
-              <p><b>特色：</b> ${p.description || '無資料'}</p>
             `
           });
         } else {

@@ -6,6 +6,4 @@ export interface Product {
     isBonus: boolean;
     minAge: number;
     maxAge: number;
-    paymentTerm?: string;
-    description?: string;
 }
