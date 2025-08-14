@@ -20,7 +20,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-
+import { NZ_I18N, zh_TW } from 'ng-zorro-antd/i18n';
 
 
 
@@ -55,7 +55,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    { provide: NZ_I18N, useValue: zh_TW }  // 全域設定為繁體中文
   ],
   bootstrap: [AppComponent]
 })

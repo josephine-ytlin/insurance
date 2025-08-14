@@ -93,10 +93,10 @@ export class ProductSearchComponent implements OnInit {
         this.products = res.data || [];
         
         //清空選項
-        this.type = null;
-        this.currency = null;
-        this.isBonus = null;
-        this.ageRange = [0, 75]; // 或你想要的預設範圍
+        // this.type = null;
+        // this.currency = null;
+        // this.isBonus = null;
+        // this.ageRange = [0, 75]; // 或你想要的預設範圍
       } else {
         this.modal.error({
           nzTitle: '查詢失敗',
