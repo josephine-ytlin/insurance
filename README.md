@@ -7,6 +7,7 @@
 
 
 ## 專案結構
+- [Sequence diagram](https://diagram-generator.com/sequence/user-authentication-and-product-search-workflow-354469)
 - `insurance-backend/`：Spring Boot 3.5.4（Java 17）、MyBatis、Spring Security、Swagger
 ```
 ├── config/           // configuration
