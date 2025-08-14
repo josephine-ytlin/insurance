@@ -1,10 +1,6 @@
 package com.example.insurance_backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoginRequest {
     private String username;
 	private String password;

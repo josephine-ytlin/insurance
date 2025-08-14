@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.insurance_backend.dto.ApiResponse;
 
-import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

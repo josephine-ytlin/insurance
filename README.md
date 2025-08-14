@@ -1,7 +1,9 @@
 # 商品查詢平台
 
 ## 專案簡介
-提供使用者註冊、驗證登入功能、商品查詢、條件篩選功能。
+- 使用者註冊、驗證、登入、登出
+- 商品條件篩選查詢
+- 商品細節查看
 
 
 ## 專案結構
@@ -9,15 +11,21 @@
 ```
 ├── config/           // configuration
 ├── controller/       // APIs
+├── dto/              // request/response DTO
 ├── entity/           // Domain model
 ├── exception/        // exception handler
-├── dto/              // request/response DTO
-└── service/          // 業務邏輯
+├── mapper/           // DB mapping
+└── service/          // domain logic
 ```
 
 
 - `insurance-frontend/`：Angular 16 (TypeScript 5.1.3) 、ng-zorro-antd
-- `db/schema.sql`：資料庫 schema
+```
+├── login/             // login component
+├── product-search/    // product component
+└── verify/            // verify component
+```
+- `db/schema.sql`： users & insurance_product
 
 ## 環境需求
 - Java 17 以上
@@ -55,9 +63,10 @@
    ```
 2. 前端預設網址：[http://localhost:4200](http://localhost:4200)
 
-## 主要功能
-- 使用者登入（/api/login，Session 認證）
-- 使用者註冊帳號驗證（/api/verify，token信箱認證）
-- 依條件查詢保險商品（/api/products, /api/products/search, /api/products/{id}）
-- Swagger API 文件自動產生
-- ng-zorro-antd UI元件
+## APIs
+- POST /api/auth/login ：使用者登入
+- GET /api/auth/verify：使用者註冊驗證身份
+- POST /api/auth/logout ：使用者登出
+- GET /api/products： 取所有商品
+- GET /api/products/{id}： 以產品id取得產品資訊
+- POST /api/products/search： 依條件查詢商品

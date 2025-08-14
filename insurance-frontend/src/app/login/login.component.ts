@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponse } from '../models/api-response'; // 假設你有對應 TypeScript 的 ApiResponse 型別
+import { ApiResponse } from '../models/api-response'; 
 
 @Component({
   selector: 'app-login',
