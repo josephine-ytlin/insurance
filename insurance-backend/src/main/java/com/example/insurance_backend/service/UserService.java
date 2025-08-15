@@ -12,15 +12,14 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    private final UserMapper userMapper;
+	private final UserMapper userMapper;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private EmailService emailService;
-
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    public UserService(UserMapper userMapper) {
+    public UserService(UserMapper userMapper, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
+        this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void register(String username, String password, String origin) {
