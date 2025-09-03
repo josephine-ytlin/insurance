@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.insurance_backend.mapper.OrderMapper">
+
+  <!-- 新增訂單 -->
+  <insert id="insertOrder" parameterType="com.example.insurance_backend.entity.Order" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO orders (user_id, product_id, amount, currency, status, payment_url, created_at, updated_at)
+    VALUES (#{userId}, #{productId}, #{amount}, #{currency}, #{status}, #{paymentUrl}, #{createdAt}, #{updatedAt})
+  </insert>
+
+  <!-- 根據 ID 查詢 -->
+  <select id="selectById" parameterType="long" resultType="com.example.insurance_backend.entity.Order">
+    SELECT * FROM orders WHERE id = #{id}
+  </select>
+
+  <!-- 根據使用者 ID 查詢 -->
+  <select id="selectByUserId" parameterType="long" resultType="com.example.insurance_backend.entity.Order">
+    SELECT * FROM orders WHERE user_id = #{userId} ORDER BY created_at DESC
+  </select>
+
+  <!-- 更新訂單 -->
+  <update id="updateOrder" parameterType="com.example.insurance_backend.entity.Order">
+    UPDATE orders
+    SET 
+      user_id = #{userId},
+      product_id = #{productId},
+      amount = #{amount},
+      currency = #{currency},
+      status = #{status},
+      payment_url = #{paymentUrl},
+      updated_at = #{updatedAt}
+    WHERE id = #{id}
+  </update>
+
+</mapper>

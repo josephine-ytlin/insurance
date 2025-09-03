@@ -3,7 +3,11 @@ export interface Product {
     name: string;
     type: string;
     currency: string;
-    isBonus: boolean;
-    minAge: number;
-    maxAge: number;
+    isSoldout: boolean;
+    stockQuantity: number;
+    price: number;
+    notes: string;
+    description: string;
+    imageUrl: string;
+
 }

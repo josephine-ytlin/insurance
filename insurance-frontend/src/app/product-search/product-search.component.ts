@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Product } from '../models/product';
+
 
 @Component({
   selector: 'app-product-search',
@@ -10,14 +11,17 @@ import { Product } from '../models/product';
   styleUrls: ['./product-search.component.css']
 })
 export class ProductSearchComponent implements OnInit {
+  // 篩選條件
   type: string | null = null;
   currency: string | null = null;
-  isBonus: boolean | null = null;
-  ageRange: number[] = [0, 100];
+  notSoldout: boolean | null = null;
+  priceRange: number[] = [0, 1000]; // 預設價格範圍
 
+  // 篩選選項
   typeOptions: any[] = [];
   currencyOptions: any[] = [];
   products: Product[] = [];
+  selectedProduct: any | null = null;
 
   constructor(
     private http: HttpClient,
@@ -29,6 +33,8 @@ export class ProductSearchComponent implements OnInit {
     this.loadAllProducts();
   }
 
+  @ViewChild('productDetail', { static: true }) productDetailTpl!: TemplateRef<any>;
+
   /** 初始化載入所有產品 */
   private loadAllProducts() {
     this.http.get<any>('/api/products').subscribe({
@@ -36,17 +42,18 @@ export class ProductSearchComponent implements OnInit {
         if (res.success) {
           const products = res.data || [];
           this.products = products;
+          console.debug('取回的產品資料:', res.data);
   
           this.typeOptions = Array.from(new Set(products.map((p: Product) => p.type)))
             .map(t => ({ label: t, value: t }));
           this.currencyOptions = Array.from(new Set(products.map((p: Product) => p.currency)))
             .map(c => ({ label: c, value: c }));
   
-          if (products.length > 0) {
-            const min = Math.min(...products.map((p: Product) => p.minAge));
-            const max = Math.max(...products.map((p: Product) => p.maxAge));
-            this.ageRange = [min, max];
-          }
+          // if (products.length > 0) {
+          //   const min = Math.min(...products.map((p: Product) => p.minPrice));
+          //   const max = Math.max(...products.map((p: Product) => p.maxPrice));
+          //   this.priceRange = [min, max];
+          // }
         } else {
           this.modal.error({
             nzTitle: '載入失敗',
@@ -64,12 +71,12 @@ export class ProductSearchComponent implements OnInit {
     });
   }
 
-
   /** 查詢按鈕事件 */
   onSearch() {
-    const isAgeRangeDefault = this.ageRange[0] === 0 && this.ageRange[1] === 75;
+    // 檢查價格範圍是否為預設值
+    const isPriceRangeDefault = this.priceRange[0] === 0 && this.priceRange[1] === 1000;
 
-    if (!this.type && !this.currency && this.isBonus === null && isAgeRangeDefault) {
+    if (!this.type && !this.currency && this.notSoldout === null && isPriceRangeDefault) {
       this.modal.warning({
         nzTitle: '查詢條件不足',
         nzContent: '請至少設定一個查詢條件再搜尋'
@@ -85,18 +92,12 @@ export class ProductSearchComponent implements OnInit {
     this.http.post<any>('/api/products/search', {
       type: this.type,
       currency: this.currency,
-      isBonus: this.isBonus,
-      minAge: this.ageRange[0],
-      maxAge: this.ageRange[1]
+      isSoldout: !this.notSoldout, // 有庫存為false，無庫存為true
+      minPrice: this.priceRange[0],
+      maxPrice: this.priceRange[1]
     }).subscribe(res => {
       if (res.success) {
         this.products = res.data || [];
-        
-        //清空選項
-        // this.type = null;
-        // this.currency = null;
-        // this.isBonus = null;
-        // this.ageRange = [0, 75]; // 或你想要的預設範圍
       } else {
         this.modal.error({
           nzTitle: '查詢失敗',
@@ -109,29 +110,29 @@ export class ProductSearchComponent implements OnInit {
   /** 商品類型下拉選擇事件 */
   onTypeChange(value: string) {
     console.log('商品類型改變:', value);
-    this.isBonus = false;
+    this.notSoldout = false;
   }
 
   /** 幣別下拉選擇事件 */
   onCurrencyChange(value: string) {
     console.log('幣別改變:', value);
-    this.isBonus = false;
+    this.notSoldout = false;
   }
 
-  /** 查看商品詳細 */
+  /** 顯示商品詳細資料 */
   viewProductDetail(id: number) {
     this.http.get<any>(`/api/products/${id}`).subscribe({
       next: res => {
         if (res.success) {
-          const p = res.data;
-          this.modal.info({
-            nzTitle: `商品詳細資料 - ${p.name}`,
-            nzContent: `
-              <p><b>類型：</b> ${p.type}</p>
-              <p><b>幣別：</b> ${p.currency}</p>
-              <p><b>分紅：</b> ${p.isBonus ? '是' : '否'}</p>
-              <p><b>年齡範圍：</b> ${p.minAge} - ${p.maxAge}</p>
-            `
+          this.selectedProduct = res.data; // 先設定資料
+          this.modal.create({
+            nzTitle: `商品詳細資料 - ${this.selectedProduct.name}`,
+            nzContent: this.productDetailTpl,
+            nzFooter: [
+              { label: '關閉', type: 'default', onClick: () => this.modal.closeAll() },
+              { label: '加入購物車', onClick: () => this.addToCart(this.selectedProduct.id), class: 'btn-add-cart' },
+              { label: '購買', type: 'primary', onClick: () => this.buyProduct(this.selectedProduct.id) }
+            ]
           });
         } else {
           this.modal.error({
@@ -150,6 +151,27 @@ export class ProductSearchComponent implements OnInit {
     });
   }
 
+  /** 功能實作 */
+  buyProduct(productId: number) {
+    console.log('購買商品 ID:', productId);
+    // TODO: 呼叫購買 API 或導頁
+  }
+
+  addToCart(productId: number) {
+    console.log('加入購物車:', productId);
+    // TODO: 呼叫購物車 API 或本地儲存
+  }
+
+  addToFavorite(productId: number) {
+    console.log('加入收藏:', productId);
+    // TODO: 呼叫 API 或本地儲存
+  }
+
+  shareProduct(productId: number) {
+    console.log('分享商品:', productId);
+    // TODO: 開啟分享視窗或複製連結
+  }
+  
   /** 登出 */
   logout() {
     this.http.post('/api/auth/logout', {}).subscribe({

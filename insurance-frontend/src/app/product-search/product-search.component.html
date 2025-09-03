@@ -38,27 +38,30 @@
         </nz-form-item>
       </nz-col>
 
-      <nz-col [nzSpan]="4" class="bonus-checkbox-col">
+      <nz-col [nzSpan]="4" class="soldout-checkbox-col">
         <nz-form-item>
-          <!-- <nz-form-label>分紅</nz-form-label> -->
           <nz-form-control>
-            <label nz-checkbox [(ngModel)]="isBonus" name="isBonus">分紅</label>
+            <!-- 變更為 isSoldout -->
+            <label nz-checkbox [(ngModel)]="notSoldout" name="isSoldout">有庫存</label>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
 
       <nz-col [nzSpan]="8">
         <nz-form-item>
-          <nz-form-label>年齡範圍</nz-form-label>
+          <!-- 變更為價格範圍 -->
+          <nz-form-label>價格範圍</nz-form-label>
           <nz-form-control>
+            <!-- 變更為 priceRange -->
             <nz-slider
-              [(ngModel)]="ageRange"
-              name="ageRange"
+              [(ngModel)]="priceRange"
+              name="priceRange"
               [nzRange]="true"
               [nzMin]="0"
-              [nzMax]="100"
+              [nzMax]="1000"
             ></nz-slider>
-            <div class="age-range-label">{{ ageRange[0] }} - {{ ageRange[1] }} 歲</div>
+            <!-- 變更為 priceRange -->
+            <div class="price-range-label">{{ priceRange[0] }} - {{ priceRange[1] }}</div>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
@@ -71,24 +74,43 @@
     </div>
   </form>
 
-  <nz-table
-  [nzData]="products"
-  [nzFrontPagination]="false"
-  [nzPageSize]="10"
-  class="product-table"
->
-  <thead>
-    <tr>
-      <th>名稱</th>
-      <th>類型</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let p of products" (click)="viewProductDetail(p.id)" class="clickable-row">
-      <td>{{ p.name }}</td>
-      <td>{{ p.type }}</td>
-    </tr>
-  </tbody>
-</nz-table>
-
+  <div class="product-grid">
+    <nz-row [nzGutter]="[16, 16]">
+      <nz-col
+        [nzSpan]="6"
+        *ngFor="let p of products"
+        (click)="viewProductDetail(p.id)"
+      >
+        <div class="product-card clickable-card" style="width: 200px; height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden; border: 1px solid #e8e8e8; border-radius: 8px; padding: 10px;">
+          <img
+            [src]="p.imageUrl || 'https://placehold.co/200x200/A8A29E/ffffff?text=Product'"
+            alt="商品預覽圖"
+            class="product-image"
+            style="width: 100%; height: 200px; object-fit: cover;"
+          />
+          <div style="font-size: 16px; font-weight: bold; margin-top: 8px;">{{ p.name }}</div>
+        </div>
+      </nz-col>
+    </nz-row>
+  </div>
 </div>
+
+<ng-template #productDetail >
+  <div *ngIf="selectedProduct">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img [src]="selectedProduct.imageUrl || 'https://placehold.co/300x300/A8A29E/ffffff?text=Product+Image'" alt="商品圖片" style="width: 300px; height: 300px; border-radius: 8px;" />
+    </div>
+
+    <p><b>類型：</b> {{ selectedProduct.type }}</p>
+    <p><b>幣別：</b> {{ selectedProduct.currency }}</p>
+    <p><b>庫存：</b> {{ selectedProduct.stockQuantity}}</p>
+    <p><b>價格：</b> {{ selectedProduct.price}}</p>
+    <p><b>備註：</b> {{ selectedProduct.notes }}</p>
+    <p><b>描述：</b> {{ selectedProduct.description }}</p>
+
+    <div style="margin-top: 16px;">
+      <button nz-button (click)="addToFavorite(selectedProduct.id)">加入收藏</button>
+      <button nz-button (click)="shareProduct(selectedProduct.id)">分享</button>
+    </div>
+  </div>
+</ng-template>
