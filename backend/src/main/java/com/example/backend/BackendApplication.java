@@ -1,16 +1,16 @@
-package com.example.insurance_backend;
+package com.example.backend;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@MapperScan("com.example.insurance_backend.mapper")
+@MapperScan("com.example.backend.mapper")
 @SpringBootApplication
-public class InsuranceBackendApplication {
+public class BackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(InsuranceBackendApplication.class, args);
+		SpringApplication.run(BackendApplication.class, args);
 	}
 
 }

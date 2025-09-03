@@ -102,11 +102,11 @@
     </div>
 
     <p><b>類型：</b> {{ selectedProduct.type }}</p>
-    <p><b>幣別：</b> {{ selectedProduct.currency }}</p>
+    <!-- <p><b>幣別：</b> {{ selectedProduct.currency }}</p> -->
     <p><b>庫存：</b> {{ selectedProduct.stockQuantity}}</p>
-    <p><b>價格：</b> {{ selectedProduct.price}}</p>
-    <p><b>備註：</b> {{ selectedProduct.notes }}</p>
-    <p><b>描述：</b> {{ selectedProduct.description }}</p>
+    <p><b>價格：</b> {{ selectedProduct.price}} {{ selectedProduct.currency }}</p>
+    <p><b>說明：</b> {{ selectedProduct.notes }}</p>
+    <p><b>規格：</b> {{ selectedProduct.description }}</p>
 
     <div style="margin-top: 16px;">
       <button nz-button (click)="addToFavorite(selectedProduct.id)">加入收藏</button>
