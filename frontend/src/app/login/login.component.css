@@ -1,0 +1,29 @@
+/* 讓外層容器滿版，垂直水平置中 */
+.full-screen-center {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5; /* 可自訂背景色 */
+  }
+  
+  /* 控制表單寬度與最大寬度 */
+  .login-form {
+    width: 480px;       /* 固定寬度 */
+    max-width: 90vw;    /* 小螢幕時可縮放 */
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  }
+  
+  /* 調整輸入框寬度，確保佔滿控制欄 */
+  .nz-form-control {
+    width: 100% !important;
+  }
+  
+  /* 讓輸入框寬度撐滿父元素 */
+  .nz-form-control input[nz-input] {
+    width: 100%;
+  }
+  
