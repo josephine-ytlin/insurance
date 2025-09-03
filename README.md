@@ -11,19 +11,19 @@
 - [State diagram](https://diagram-generator.com/state/user-authentication-and-product-browsing-flow-561140)
 
 - [Sequence diagram](https://diagram-generator.com/sequence/user-authentication-and-product-search-workflow-354469)
-- `insurance-backend/`：Spring Boot 3.5.4（Java 17）、MyBatis、Spring Security、Swagger
+- `backend/`：Spring Boot 3.5.4（Java 17）、MyBatis、Spring Security、Swagger
 ```
 ├── config/           // configuration
 ├── controller/       // APIs
 ├── dto/              // request/response DTO
-├── entity/           // Domain model
+├── model/           // Domain model
 ├── exception/        // exception handler
 ├── mapper/           // DB mapping
 └── service/          // domain logic
 ```
 
 
-- `insurance-frontend/`：Angular 16 (TypeScript 5.1.3) 、ng-zorro-antd
+- `frontend/`：Angular 16 (TypeScript 5.1.3) 、ng-zorro-antd
 ```
 ├── login/             // login component
 ├── product-search/    // product component
@@ -40,19 +40,19 @@
 ## 安裝與啟動
 
 ### 1. 資料庫
-1. 啟動 PostgreSQL，建立 `insurance` 資料庫：
+1. 啟動 PostgreSQL，建立 `chiikawa` 資料庫：
    ```bash
-   createdb -U postgres insurance
+   createdb -U postgres chiikawa
    ```
 2. 匯入 schema：
    ```bash
-   psql -U postgres -d insurance -f db/schema.sql
+   psql -U postgres -d chiikawa -f db/schema.sql
    ```
 
 ### 2. 後端
 1. 進入後端目錄並編譯、啟動：
    ```bash
-   cd insurance-backend
+   cd backend
    mvn clean package
    mvn spring-boot:run
    ```
@@ -61,7 +61,7 @@
 ### 3. 前端
 1. 進入前端目錄並安裝、啟動：
    ```bash
-   cd insurance-frontend
+   cd  frontend
    npm install
    npm start
    ```

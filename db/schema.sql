@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     verified BOOLEAN NOT NULL DEFAULT false,
 );
 
--- insurance_products table
-CREATE TABLE IF NOT EXISTS insurance_products (
+-- products table
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50) NOT NULL,
